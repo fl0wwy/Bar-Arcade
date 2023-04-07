@@ -90,3 +90,21 @@ class Shooter(Enemy):
         self.shot()  
         self.projectile.draw(self.display)
         self.projectile.update() 
+
+class UFO(Enemy):
+    def __init__(self, player, pos=(1350,20), enemy='ufo') -> None:
+        super().__init__(pos, enemy, player)
+        self.rect = self.image.get_rect(center = pos)
+
+    def move(self):
+        self.rect.x -= 4 
+
+    def destroy(self):
+        if shot_group.sprite:
+            if self.rect.colliderect(shot_group.sprite.rect):
+                enemy_death.play()
+                self.player_sprite.points += 50
+                self.kill()  
+                shot_group.empty()  
+        if self.rect.left <= -30:
+            self.kill()             
