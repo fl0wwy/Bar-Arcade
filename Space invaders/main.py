@@ -79,8 +79,14 @@ game_over = False
 game_over_text = title_font.render('GAME OVER', True, 'White')
 game_over_text_rect = game_over_text.get_rect(center = (640, 100))
 
-try_again_button = button_font.render('Try again?', True, 'White')
+try_again_button = button_font.render('Play Again?', True, 'White')
 try_again_button_rect = try_again_button.get_rect(center = (640, 250))
+
+# You win
+win = False
+
+win_text = title_font.render('YOU WIN', True, 'White')
+win_text_rect = win_text.get_rect(center = (640, 100))
 
 # Game loop
 while True:
@@ -109,7 +115,10 @@ while True:
         if enemy_sprite.rect.colliderect(earth_rect):
             game_over = True
     if player.sprite.health == 0:
-        game_over = True        
+        game_over = True  
+    # Win condition
+    if enemy_group.sprites() == []: 
+        win = True      
 
     # Game states    
     if game_active:
@@ -176,11 +185,11 @@ while True:
         display.blit(reset_score,reset_score_rect)
         display.blit(exit_button,exit_button_rect)
     
-    if game_over:
+    if game_over or win:
         game_active = False
         # Try again
         if try_again_button_rect.collidepoint(mouse_pos):
-            try_again_button = button_font.render('Try again?', True, 'Green') 
+            try_again_button = button_font.render('Play Again?', True, 'Green') 
             if pygame.mouse.get_pressed()[0]:
                 write_score()
                 high_score_text = data_font.render(f'HIGH SCORE<{read_score()}>', True, 'White') 
@@ -190,9 +199,10 @@ while True:
                 level = LevelBuilder(display, player.sprite)
                 
                 game_over = False
+                win = False
                 game_active = True
         else:
-            try_again_button = button_font.render('Try again?', True, 'White') 
+            try_again_button = button_font.render('Play Again?', True, 'White') 
         # Exit the game
         if exit_button_rect.collidepoint(mouse_pos):
             exit_button = button_font.render('EXIT', True, 'green') 
@@ -204,7 +214,10 @@ while True:
         
         write_score()
         high_score_text = data_font.render(f'HIGH SCORE<{read_score()}>', True, 'White') 
-        display.blit(game_over_text,game_over_text_rect) 
+        if game_over:
+            display.blit(game_over_text,game_over_text_rect) 
+        elif win:
+            display.blit(win_text,win_text_rect)     
         display.blit(try_again_button,try_again_button_rect)  
         display.blit(exit_button,exit_button_rect) 
 
