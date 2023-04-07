@@ -16,6 +16,7 @@ class LevelBuilder:
         ]
         self.display = display
         self.player_sprite = player
+        self.ufo = False
         
         self.level_setup()
     
@@ -30,7 +31,17 @@ class LevelBuilder:
                     case '3': 
                         enemy_group.add(Enemy(((col_index * 31) + 305, (row_index * 31) + 50), '2', self.player_sprite))  
     def level_run(self):
+        if not self.ufo:
+            self.ufo = random.choices([True,False], weights=[0.1,99],k=1)[0]
+            if self.ufo:
+                if not ufo.sprite:
+                    ufo.add(UFO(self.player_sprite))
+                self.ufo = False    
+        
         enemy_group.draw(self.display)
-        enemy_group.update()                     
+        enemy_group.update()   
+        ufo.draw(self.display)
+        ufo.update()                  
 
 enemy_group = pygame.sprite.Group()
+ufo = pygame.sprite.GroupSingle()
