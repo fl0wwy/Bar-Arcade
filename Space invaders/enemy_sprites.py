@@ -20,6 +20,7 @@ class Enemy(pygame.sprite.Sprite):
 
         self.starting_point_x = self.rect.centerx
         
+        self.type = enemy
         self.player_sprite = player
 
     def animation_state(self): 
@@ -49,9 +50,20 @@ class Enemy(pygame.sprite.Sprite):
         if shot_group.sprite:
             if self.rect.colliderect(shot_group.sprite.rect):
                 enemy_death.play()
-                self.player_sprite.points += 10
+                match self.type:
+                    case '1':
+                        self.player_sprite.points += 20
+                    case '2':
+                        self.player_sprite.points += 10
+                    case 'shooter':
+                        self.player_sprite.points += 40    
+                    case 'ufo':
+                        self.player_sprite.points += random.randint(100,300)   
                 self.kill()  
-                shot_group.empty()                          
+                shot_group.empty() 
+        if self.type == 'ufo':
+            if self.rect.left <= -30:
+                self.kill()                                  
 
     def update(self) -> None:
         super().update()   
@@ -94,17 +106,6 @@ class Shooter(Enemy):
 class UFO(Enemy):
     def __init__(self, player, pos=(1350,20), enemy='ufo') -> None:
         super().__init__(pos, enemy, player)
-        self.rect = self.image.get_rect(center = pos)
 
     def move(self):
-        self.rect.x -= 4 
-
-    def destroy(self):
-        if shot_group.sprite:
-            if self.rect.colliderect(shot_group.sprite.rect):
-                enemy_death.play()
-                self.player_sprite.points += 50
-                self.kill()  
-                shot_group.empty()  
-        if self.rect.left <= -30:
-            self.kill()             
+        self.rect.x -= 4           
