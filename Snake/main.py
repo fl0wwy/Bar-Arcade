@@ -66,8 +66,6 @@ class Game:
     def game_reset(self):
         self.player = Player()
         self.fruit.add(Fruit(self.player))  
-        self.game_active = True
-        self.game_over = False  
 
     def get_high_score(self):
         with open('highest_score.txt', 'r') as file:
