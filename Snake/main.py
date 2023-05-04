@@ -51,7 +51,7 @@ class Game:
                 backwards = True
             else:
                 backwards = False    
-            for rect in row:
+            for index, rect in enumerate(row):
                 if backwards:
                     if index % 2 == 0:
                         pygame.draw.rect(self.display, 'gray10', rect)  
@@ -61,7 +61,7 @@ class Game:
                     if index % 2 == 0:
                         pygame.draw.rect(self.display, 'gray19', rect)  
                     else:
-                        pygame.draw.rect(self.display, 'gray10', rect)      
+                        pygame.draw.rect(self.display, 'gray10', rect)    
 
     def game_reset(self):
         self.player = Player()
