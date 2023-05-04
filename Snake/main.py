@@ -34,7 +34,8 @@ class Game:
             if event.type == pygame.KEYDOWN: 
                     if self.game_over == True or self.game_active == False:
                         if self.game_over == True:
-                            self.game_reset()  
+                            self.player = Player()
+                            self.fruit.add(Fruit(self.player))   
                         self.game_active = True
                         self.game_over = False
 
@@ -61,11 +62,7 @@ class Game:
                     if index % 2 == 0:
                         pygame.draw.rect(self.display, 'gray19', rect)  
                     else:
-                        pygame.draw.rect(self.display, 'gray10', rect)    
-
-    def game_reset(self):
-        self.player = Player()
-        self.fruit.add(Fruit(self.player))  
+                        pygame.draw.rect(self.display, 'gray10', rect)      
 
     def get_high_score(self):
         with open('highest_score.txt', 'r') as file:
