@@ -1,4 +1,3 @@
-from typing import Any
 import pygame
 from pygame.math import Vector2
 from settings import *
