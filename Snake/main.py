@@ -51,7 +51,7 @@ class Game:
                 backwards = True
             else:
                 backwards = False    
-            for index, rect in enumerate(row):
+            for rect in row:
                 if backwards:
                     if index % 2 == 0:
                         pygame.draw.rect(self.display, 'gray10', rect)  
