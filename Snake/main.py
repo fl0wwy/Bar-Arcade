@@ -16,7 +16,7 @@ class Game:
         pygame.time.set_timer(self.TRIGGER_MOVEMENT, 100)
         self.fruit = pygame.sprite.GroupSingle(Fruit(self.player))
 
-        self.game_active = False
+        self.game_active = True
         self.game_over = False
         self.font = pygame.font.Font('ARCADE_N.TTF', 30)
         self.font_small = pygame.font.Font('ARCADE_N.TTF', 20)
