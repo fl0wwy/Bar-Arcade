@@ -1,19 +1,16 @@
 import pygame
 
-# Sounds
-
-
 class Player(pygame.sprite.Sprite):
-    def __init__(self) -> None:
+    def __init__(self, x_pos = 0) -> None:
         super().__init__()
         self.image = pygame.Surface((10,50))
         self.image.fill(pygame.Color('cornsilk'))
-        self.rect = self.image.get_rect(center = (0,200))
+        self.rect = self.image.get_rect(center = (x_pos,200))
 
         self.score = 0
 
         self.font = pygame.font.Font('materials/font.TTF',30)
-    def player_input(self):
+    def movement(self):
         keys = pygame.key.get_pressed()
         control = [pygame.K_w,pygame.K_s]
 
@@ -30,23 +27,13 @@ class Player(pygame.sprite.Sprite):
     
     def update(self) -> None:
         super().update()
-        self.player_input()
+        self.movement()
 
-class AI(pygame.sprite.Sprite):
+class AI(Player):
     def __init__(self) -> None:
-        super().__init__()
-        self.image = pygame.Surface((10,50))
-        self.image.fill(pygame.Color('cornsilk'))
-        self.rect = self.image.get_rect(center = (800,200))
-
-        self.score = 0
-
-        self.font = pygame.font.Font('materials/font.TTF',30)
-    def scoreboard(self,display,x_axis):
-        text = self.font.render(f'{self.score}',True,pygame.Color('darkseagreen1')) 
-        text_rect = text.get_rect(center = (x_axis,20)) 
-        display.blit(text,text_rect) 
-    def ai(self, ball):
+        super().__init__(800) 
+    
+    def movement(self, ball):
         if ball.rect.centery not in range(self.rect.top, self.rect.bottom):
             if ball.rect.y > self.rect.y:
                 self.rect.y += 5
@@ -54,8 +41,8 @@ class AI(pygame.sprite.Sprite):
                 self.rect.y -= 5     
     
     def update(self, ball) -> None:
-        super().update()
-        self.ai(ball)
+        pygame.sprite.Sprite().update()
+        self.movement(ball)
 
 class Ball(pygame.sprite.Sprite):    
     def __init__(self) -> None:
